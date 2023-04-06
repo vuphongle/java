@@ -52,15 +52,4 @@ public class DanhSachNV implements Serializable{
 		return null;
 	}
 	
-	public void sua(NhanVien nv) {
-		for (NhanVien x : dsNhanVien) {
-			if(x.getMaNV().equals(nv.getMaNV())) {
-				x.setTenNV(nv.getTenNV());
-				x.setTuoi(nv.getTuoi());
-				x.setPhai(nv.getPhai());
-				x.setTienLuong(nv.getTienLuong());
-				x.setPhongBan(nv.getPhongBan());
-			}
-		}
-	}
 }

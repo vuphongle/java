@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BandCombineOp;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -27,8 +26,7 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
-
-public class GUI extends JFrame implements ActionListener, MouseListener{
+public class GUI extends JFrame implements ActionListener, MouseListener {
 	private JButton btnTim, btnThem, btnXoa, btnSua, btnXoaTrang, btnLuu;
 	private JTextField txtTim, txtMaNV, txtTen, txtTuoi, txtLuong;
 	private String[] cols = { "Ma", "Tên", "Tuoi", "Gioi tinh", "Tien Luong", "Phong Ban" };
@@ -246,8 +244,8 @@ public class GUI extends JFrame implements ActionListener, MouseListener{
 					listnv.xoaNhanVien(nv);
 					table.setModel(model = new DefaultTableModel(cols, 0));
 					for (NhanVien nv1 : listnv.getDsNhanVien()) {
-						Object[] temp = { nv1.getMaNV(), nv1.getTenNV(), nv1.getTuoi(), nv1.getPhai(), nv1.getTienLuong(),
-								nv1.getPhongBan() };
+						Object[] temp = { nv1.getMaNV(), nv1.getTenNV(), nv1.getTuoi(), nv1.getPhai(),
+								nv1.getTienLuong(), nv1.getPhongBan() };
 						model.addRow(temp);
 					}
 				}
@@ -258,12 +256,12 @@ public class GUI extends JFrame implements ActionListener, MouseListener{
 	private void sua() {
 		try {
 			int selectedRow = table.getSelectedRow();
-			if(selectedRow < 0) {
+			if (selectedRow < 0) {
 				JOptionPane.showMessageDialog(this, "Chưa chọn dòng cần sửa");
 				return;
 			}
 			NhanVien nv = creatNhanVien();
-			if(nv == null)
+			if (nv == null)
 				return;
 			listnv.replaceID(nv);
 			model.removeRow(selectedRow);
@@ -278,11 +276,39 @@ public class GUI extends JFrame implements ActionListener, MouseListener{
 		txtTen.setText(item.getTenNV());
 		txtTuoi.setText(item.getTuoi() + "");
 		txtLuong.setText(item.getTienLuong() + "");
-		if(item.getPhai().trim().equals("Nam"))
+		if (item.getPhai().trim().equals("Nam"))
 			rdoNam.setSelected(true);
 		else
 			rdoNu.setSelected(false);
 	}
+
+	private boolean validData() {
+		String maNV = txtMaNV.getText().trim();
+		String ho = txtTen.getText().trim();
+		String ten = txtTuoi.getText().trim();
+		int tuoi = Integer.parseInt(txtTuoi.getText().trim());
+
+		if (!(maNV.length() > 0 && maNV.matches("(NV)\\d{3}"))) {
+			JOptionPane.showMessageDialog(this, "Mã nhân viên theo mẫu: NV + 3 số");
+			return false;
+		}
+
+		if (!(ho.length() > 0 && ho.matches("^[A-Z][a-z]+$"))) {
+			JOptionPane.showMessageDialog(this, "Họ phải là một từ và viết hoa chữ đầu");
+			return false;
+		}
+		if (!(ten.length() > 0 && ten.matches("^[A-Z][a-z]+\\s([A-Z][a-z]+)*"))) {
+			JOptionPane.showMessageDialog(this,
+					"Tên phải là một hoặc nhiều từ và viết hoa chữ đầu và ngăn cách nhau bởi dấu cách");
+			return false;
+		}
+		if (!(tuoi >= 18 && tuoi <= 60)) {
+			JOptionPane.showMessageDialog(this, "Tuổi phải từ 18 đến 60");
+			return false;
+		}
+		return true;
+	}
+
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		int row = table.getSelectedRow();
@@ -295,24 +321,24 @@ public class GUI extends JFrame implements ActionListener, MouseListener{
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
